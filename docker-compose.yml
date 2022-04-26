@@ -1,0 +1,25 @@
+version: '3.3'
+
+services:
+  mysqldb:
+    image: mysql:8.0
+    env_file: ./.env
+    ports:
+      - $MYSQL_LOCAL_PORT:$MYSQL_DOCKER_PORT
+    volumes:
+      - db:/var/lib/mysql
+  
+  nodejs:
+    depends_on:
+      - mysqldb
+    build: .
+    env_file: ./.env
+    ports:
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/var/www
+
+volumes: 
+  db:
