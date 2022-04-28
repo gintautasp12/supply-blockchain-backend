@@ -1,0 +1,39 @@
+<%- include('partials/header'); %>
+
+<div class="container">
+    <%- include('partials/menu'); %>
+    
+    <div class="row mt-5">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 mt-3">
+            <div class="card shadow mb-5 bg-body rounded">
+                <div class="card-header">
+                    Send event
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="device-address" class="form-label">Device address</label>
+                        <input type="text" class="form-control" id="device-address" placeholder="0xD8a12aBa14...">
+
+                        <label for="object" class="form-label mt-3">Object ID</label>
+                        <input type="text" class="form-control" id="object" placeholder="Object id">
+
+                        <label for="event-type" class="form-label mt-3">Event type</label>
+                        <select class="form-select" id="event-type" aria-label="Event type">
+                            <option selected>Select event type</option>
+                            <option value="1">One</option>
+                        </select>
+
+                        <label for="value" class="form-label mt-3">Value</label>
+                        <input type="text" class="form-control" id="value" placeholder="Enter value">
+                    </div>
+
+                    <a href="#" class="btn btn-primary">Add</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+
+<%- include('partials/footer'); %>
