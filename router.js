@@ -1,29 +1,21 @@
-require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
 const { body, validationResult } = require('express-validator');
 const { PrismaClient } = require('@prisma/client');
 const userRegistrator = require('./services/UserRegistrator');
 const smartContractService = require('./services/SmartContractService');
 
-const app = express();
 const prisma = new PrismaClient();
+const router = express.Router();
 
-app.set('view engine', 'ejs');
-app.use(express.static('public'));
-app.use(cors({ origin: 'http://localhost:8081' }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.get('/iot', async (req, res) => {
+router.get('/iot', async (req, res) => {
     res.render('iot');
 });
 
-app.get('/device', async (req, res) => {
+router.get('/device', async (req, res) => {
     res.render('device');
 });
 
-app.post(
+router.post(
     '/admin',
     body('username').not().isEmpty().trim(),
     body('username').isEmail(),
@@ -51,7 +43,7 @@ app.post(
         }
     });
 
-app.get('/', async (req, res) => {
+router.get('/', async (req, res) => {
     const businesses = await prisma.business.findMany();
 
     res.render('index', {
@@ -59,7 +51,4 @@ app.get('/', async (req, res) => {
     });
 });
 
-const PORT = process.env.NODE_DOCKER_PORT || 8080;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+module.exports = router;

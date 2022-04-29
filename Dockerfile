@@ -8,4 +8,4 @@ RUN npm install
 
 COPY . .
 
-CMD npx nodemon app.js
+CMD npx nodemon server.js
