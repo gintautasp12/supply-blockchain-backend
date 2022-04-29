@@ -15,8 +15,10 @@ model Business {
 
 model User {
     id Int @id @default(autoincrement())
-    username String @db.VarChar(255)
+    username String @db.VarChar(255) @unique
     password String @db.VarChar(255)
+    address String @db.VarChar(512)
+    privateKey String @db.VarChar(512)
     business Business @relation(fields: [businessId], references: [id])
     businessId Int
 }
