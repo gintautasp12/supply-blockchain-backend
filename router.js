@@ -9,13 +9,17 @@ const router = express.Router();
 router.get('/iot', iotController.index);
 
 router.post('/device/generate-keypair', deviceController.generate_keypair);
+router.post(
+    '/device',
+    body('address').trim().isEthereumAddress().notEmpty(),
+    deviceController.add_new
+);
 router.get('/device', deviceController.index);
 
 router.post(
     '/admin',
-    body('username').not().isEmpty().trim(),
-    body('username').isEmail(),
-    body('businessId').isInt().not().isEmpty(),
+    body('username').trim().notEmpty().isEmail(),
+    body('businessId').isInt().notEmpty(),
     adminController.create_new,
 );
 router.get('/', adminController.index);

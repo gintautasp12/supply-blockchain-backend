@@ -3,7 +3,7 @@ function addNewAdmin() {
     const emailInput = $('#email');
     const businessInput = $('#business');
     const spinner = $('button .spinner-grow');
-    const buttonSpan = $('.button-text')
+    const buttonText = $('.button-text')
     const statusBar = $('#status-bar');
 
     if (addAdminButton) {
@@ -12,7 +12,7 @@ function addNewAdmin() {
 
     async function addAdminClickHandler(e) {
         spinner.removeClass('d-none');
-        buttonSpan.text('Adding...');
+        buttonText.text('Adding...');
         addAdminButton.attr('disabled', 1);
         statusBar.addClass('invisible').removeClass('alert-success').removeClass('alert-danger');
 
@@ -28,7 +28,7 @@ function addNewAdmin() {
         });
 
         spinner.addClass('d-none');
-        buttonSpan.text('Add');
+        buttonText.text('Add');
         addAdminButton.attr('disabled', false);
         statusBar.removeClass('invisible').addClass('visible');
 
@@ -91,6 +91,49 @@ function generateKeypair() {
     }
 }
 
+function addNewDevice() {
+    const addDeviceButton = $('#add-device-btn');
+    const addressInput = $('#device-address');
+    const spinner = $('#add-device-btn .spinner-grow');
+    const buttonText = $('#add-device-btn .button-text')
+    const statusBar = $('#status-bar');
+
+    if (addDeviceButton) {
+        addDeviceButton.click(addAdminClickHandler);
+    }
+
+    async function addAdminClickHandler(e) {
+        spinner.removeClass('d-none');
+        buttonText.text('Adding...');
+        addDeviceButton.attr('disabled', 1);
+        statusBar.addClass('invisible').removeClass('alert-success').removeClass('alert-danger');
+
+        const response = await fetch('/device', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                address: addressInput.val(),
+            }),
+        });
+
+        spinner.addClass('d-none');
+        buttonText.text('Add');
+        addDeviceButton.attr('disabled', false);
+        statusBar.removeClass('invisible').addClass('visible');
+
+        if (response.status !== 200) {
+            statusBar.addClass('alert-danger').html('Request failed with status code ' + response.status);
+
+            return;
+        }
+
+        addressInput.val('');
+        statusBar.addClass('alert-success').html(await getTxHashSuccessMessage(response));
+    }
+}
+
 async function getTxHashSuccessMessage(response) {
     const txHash = (await response.json()).txHash;
     const txUrl = `https://rinkeby.etherscan.io/tx/` + txHash;
@@ -101,4 +144,5 @@ async function getTxHashSuccessMessage(response) {
 $(document).ready(function () {
     addNewAdmin();
     generateKeypair();
+    addNewDevice();
 });

@@ -10,6 +10,19 @@ class SmartContractService {
             .registerAdministrator(address)
             .send({ from: systemAccount.address, gas: 3000000 });
     }
+
+    async registerDevice(address) {
+        const systemAccount = web3Provider.getSystemAccount();
+        
+        // TODO: author should be currently logged in administrator
+        const author = systemAccount.address;
+
+        return await web3Provider
+            .getContract(systemAccount)
+            .methods
+            .registerDevice(address, author)
+            .send({ from: systemAccount.address, gas: 3000000 });
+    }
 }
 
 module.exports = new SmartContractService();
