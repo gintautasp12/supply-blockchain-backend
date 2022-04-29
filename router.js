@@ -8,6 +8,7 @@ const router = express.Router();
 
 router.get('/iot', iotController.index);
 
+router.post('/device/generate-keypair', deviceController.generate_keypair);
 router.get('/device', deviceController.index);
 
 router.post(
@@ -17,7 +18,6 @@ router.post(
     body('businessId').isInt().not().isEmpty(),
     adminController.create_new,
 );
-
 router.get('/', adminController.index);
 
 module.exports = router;
