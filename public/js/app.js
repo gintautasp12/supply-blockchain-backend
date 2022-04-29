@@ -40,12 +40,15 @@ function addNewAdmin() {
 
         emailInput.val('');
         businessInput.val('Select business');
-        const txHash = (await response.json()).txHash;
-        const txUrl = `https://rinkeby.etherscan.io/tx/` + txHash;
-        statusBar
-            .addClass('alert-success')
-            .html(`Success! Transaction hash: <a href="${txUrl}">${txHash}</a>`);
+        statusBar.addClass('alert-success').html(await getTxHashSuccessMessage(response));
     }
+}
+
+async function getTxHashSuccessMessage(response) {
+    const txHash = (await response.json()).txHash;
+    const txUrl = `https://rinkeby.etherscan.io/tx/` + txHash;
+
+    return `Success! Transaction hash: <a href="${txUrl}">${txHash}</a>`;
 }
 
 $(document).ready(function () {
