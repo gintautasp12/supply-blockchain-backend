@@ -23,7 +23,13 @@ class Web3Provider {
     getSystemAccount() {
         const web3 = this.getWeb3();
         
-        return web3.eth.accounts.privateKeyToAccount(process.env.SYSTEM_PRIVATE_KEY);
+        return web3.eth.accounts.privateKeyToAccount(process.env.ADMIN_PANEL_PRIVATE_KEY);
+    }
+
+    getIoTDeviceAccount() {
+        const web3 = this.getWeb3();
+        
+        return web3.eth.accounts.privateKeyToAccount(process.env.IOT_DEVICE_PRIVATE_KEY);
     }
 
     getContract(account) {

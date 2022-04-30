@@ -7,6 +7,13 @@ const iotController = require('./controllers/iotController');
 const router = express.Router();
 
 router.get('/iot', iotController.index);
+router.post(
+    '/iot/events',
+    body('objectId').trim().isString().notEmpty(),
+    body('eventType').isInt().notEmpty(),
+    body('value').trim().isString().notEmpty(),
+    iotController.send_event
+);
 
 router.post('/device/generate-keypair', deviceController.generate_keypair);
 router.post(

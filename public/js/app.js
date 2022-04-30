@@ -99,10 +99,10 @@ function addNewDevice() {
     const statusBar = $('#status-bar');
 
     if (addDeviceButton) {
-        addDeviceButton.click(addAdminClickHandler);
+        addDeviceButton.click(addDeviceClickHandler);
     }
 
-    async function addAdminClickHandler(e) {
+    async function addDeviceClickHandler(e) {
         spinner.removeClass('d-none');
         buttonText.text('Adding...');
         addDeviceButton.attr('disabled', 1);
@@ -134,6 +134,55 @@ function addNewDevice() {
     }
 }
 
+function addNewEvent() {
+    const sendEventButton = $('#send-event-btn');
+    const objectInput = $('#object-id');
+    const valueInput = $('#value');
+    const eventTypeInput = $('#event-type');
+    const spinner = $('#send-event-btn .spinner-grow');
+    const buttonText = $('#send-event-btn .button-text')
+    const statusBar = $('#status-bar');
+
+    if (sendEventButton) {
+        sendEventButton.click(sendEventClickHandler);
+    }
+
+    async function sendEventClickHandler(e) {
+        spinner.removeClass('d-none');
+        buttonText.text('Sending...');
+        sendEventButton.attr('disabled', 1);
+        statusBar.addClass('invisible').removeClass('alert-success').removeClass('alert-danger');
+
+        const response = await fetch('/iot/events', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                objectId: objectInput.val(),
+                eventType: Number(eventTypeInput.val()),
+                value: valueInput.val(),
+            }),
+        });
+
+        spinner.addClass('d-none');
+        buttonText.text('Add');
+        sendEventButton.attr('disabled', false);
+        statusBar.removeClass('invisible').addClass('visible');
+
+        if (response.status !== 200) {
+            statusBar.addClass('alert-danger').html('Request failed with status code ' + response.status);
+
+            return;
+        }
+
+        objectInput.val('');
+        valueInput.val('');
+        eventTypeInput.val('Select event type');
+        statusBar.addClass('alert-success').html(await getTxHashSuccessMessage(response));
+    }
+}
+
 async function getTxHashSuccessMessage(response) {
     const txHash = (await response.json()).txHash;
     const txUrl = `https://rinkeby.etherscan.io/tx/` + txHash;
@@ -145,4 +194,5 @@ $(document).ready(function () {
     addNewAdmin();
     generateKeypair();
     addNewDevice();
+    addNewEvent();
 });

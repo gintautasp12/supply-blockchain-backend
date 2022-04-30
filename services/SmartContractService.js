@@ -23,6 +23,17 @@ class SmartContractService {
             .registerDevice(address, author)
             .send({ from: systemAccount.address, gas: 3000000 });
     }
+
+    async registerEvent(eventType, value, objectId) {
+        // Single fake account to simulate and IoT device sending events
+        const deviceAccount = web3Provider.getIoTDeviceAccount();
+
+        return await web3Provider
+            .getContract(deviceAccount)
+            .methods
+            .registerEvent(eventType, value, objectId)
+            .send({ from: deviceAccount.address, gas: 3000000 });
+    }
 }
 
 module.exports = new SmartContractService();
