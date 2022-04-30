@@ -1,8 +1,6 @@
-const { PrismaClient } = require('@prisma/client');
 const web3Provider = require('../services/Web3Provider');
 const smartContractService = require('../services/SmartContractService');
-
-const prisma = new PrismaClient();
+const { validationResult } = require('express-validator');
 
 exports.index = async (req, res) => {
     res.render('device');
@@ -24,6 +22,11 @@ exports.generate_keypair = async(req, res) => {
 }
 
 exports.add_new = async(req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
         const transaction = await smartContractService.registerDevice(req.body.address);
 
