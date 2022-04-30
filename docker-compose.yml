@@ -15,7 +15,7 @@ services:
     build: .
     env_file: ./.env
     ports:
-      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+      - $NODE_LOCAL_PORT:$PORT
     stdin_open: true
     tty: true
     volumes:
