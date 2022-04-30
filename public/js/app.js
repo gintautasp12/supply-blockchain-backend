@@ -39,7 +39,7 @@ function addNewAdmin() {
         }
 
         emailInput.val('');
-        businessInput.val('Select business');
+        businessInput.val('Select link');
         statusBar.addClass('alert-success').html(await getTxHashSuccessMessage(response));
     }
 }
