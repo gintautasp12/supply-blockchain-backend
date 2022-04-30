@@ -16,7 +16,7 @@ function addNewAdmin() {
         addAdminButton.attr('disabled', 1);
         statusBar.addClass('invisible').removeClass('alert-success').removeClass('alert-danger');
 
-        const response = await fetch('/admin', {
+        const response = await fetch('/admins', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ function generateKeypair() {
         statusBar.addClass('invisible').removeClass('alert-success').removeClass('alert-danger');
         keypairContent.html('');
 
-        const response = await fetch('/device/generate-keypair', {
+        const response = await fetch('/devices/generate-keypair', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -108,7 +108,7 @@ function addNewDevice() {
         addDeviceButton.attr('disabled', 1);
         statusBar.addClass('invisible').removeClass('alert-success').removeClass('alert-danger');
 
-        const response = await fetch('/device', {
+        const response = await fetch('/devices', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

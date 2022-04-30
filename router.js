@@ -15,16 +15,16 @@ router.post(
     iotController.send_event
 );
 
-router.post('/device/generate-keypair', deviceController.generate_keypair);
+router.post('/devices/generate-keypair', deviceController.generate_keypair);
 router.post(
-    '/device',
+    '/devices',
     body('address').trim().isEthereumAddress().notEmpty(),
     deviceController.add_new
 );
-router.get('/device', deviceController.index);
+router.get('/devices', deviceController.index);
 
 router.post(
-    '/admin',
+    '/admins',
     body('username').trim().notEmpty().isEmail(),
     body('businessId').isInt().notEmpty(),
     adminController.create_new,
